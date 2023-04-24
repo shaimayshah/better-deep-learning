@@ -22,7 +22,6 @@ data/
 *.pickle
 
 # models
-models/
 *.pkl
 *.pth
 
