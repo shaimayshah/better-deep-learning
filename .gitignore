@@ -1,0 +1,32 @@
+# Compiled Python files
+*.pyc
+*.pyo
+__pycache__/
+
+# IPython Notebook
+.ipynb_checkpoints
+
+# PyCharm
+.idea/
+
+# virtualenv
+venv/
+env/
+ENV/
+
+# data files
+data/
+*.csv
+*.json
+*.h5
+*.pickle
+
+# models
+models/
+*.pkl
+*.pth
+
+# Logs
+logs/
+*.log
+*.log.*
