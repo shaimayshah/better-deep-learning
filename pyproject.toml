@@ -15,6 +15,7 @@ matplotlib = "^3.7.1"
 scipy = "^1.10.1"
 ruff = "^0.0.262"
 black = "^23.3.0"
+pytest = "^7.3.1"
 
 [build-system]
 requires = ["poetry-core"]
