@@ -1,7 +1,6 @@
-from typing import List, Dict
+from typing import Dict, List
 
 import numpy as np
-
 from src.models.activations import _ACTIVATIONS, _DERIVATIVE_ACTIVATIONS
 
 
@@ -44,29 +43,28 @@ class NeuralNetwork:
 
     def __init__(
         self,
-        layer_sizes: List[int] = None,
-        activations: List[str] = None,
-        hyper_params: Dict = None,
+        layer_sizes: List[int] = None,  # type: ignore
+        activations: List[str] = None,  # type: ignore
+        hyper_params: Dict = None,  # type: ignore
     ):
         """
-        Initializes a neural network with the given layer sizes and activations.
+        Initializes a neural network with the given layer sizes and
+        activations.
 
         Args:
-            layer_sizes: A list of integers representing the size of each layer.
-            Note that the first value in the list corresponds to the input or
-            the zeroth layer.
+            layer_sizes: A list of integers representing the size of each
+            layer. Note that the first value in the list corresponds to the
+            input or the zeroth layer.
                 Defaults to [12288, 7, 1].
             activations: A list of strings representing the activation function
             for each layer.
                 Defaults to ['relu', 'sigmoid'].
-            hyper_params: A dictionary containing hyperparameters for the neural
-            network.
+            hyper_params: A dictionary containing hyperparameters for the
+            neural network.
                 Defaults to DEFAULT_HYPERPARAMS.
         """
         self.layer_sizes = [12288, 7, 1] if layer_sizes is None else layer_sizes
-        self.activations = (
-            ["relu", "sigmoid"] if activations is None else activations
-        )
+        self.activations = ["relu", "sigmoid"] if activations is None else activations
         self.cache = {}
         self.hyper_params = (
             self.DEFAULT_HYPERPARAMS if hyper_params is None else hyper_params
@@ -158,21 +156,15 @@ class NeuralNetwork:
             dA_prev = np.dot(self.parameters[f"W{layer+1}"].T, dZ)
             activation = _DERIVATIVE_ACTIVATIONS[self.activations[layer]]
             dZ = dA_prev * activation(self.cache[f"Z{layer}"])
-            self.grads[f"dW{layer}"] = (
-                np.dot(dZ, self.cache[f"A{layer-1}"].T) / m
-            )
+            self.grads[f"dW{layer}"] = np.dot(dZ, self.cache[f"A{layer-1}"].T) / m
             self.grads[f"db{layer}"] = np.sum(dZ, axis=1, keepdims=True) / m
 
     def _update_params(self):
         """Update the parameters of the network using gradient descent."""
         learning_rate = self.hyper_params["learning_rate"]
         for layer in range(1, self.n_layers):
-            self.parameters[f"W{layer}"] -= (
-                learning_rate * self.grads[f"dW{layer}"]
-            )
-            self.parameters[f"b{layer}"] -= (
-                learning_rate * self.grads[f"db{layer}"]
-            )
+            self.parameters[f"W{layer}"] -= learning_rate * self.grads[f"dW{layer}"]
+            self.parameters[f"b{layer}"] -= learning_rate * self.grads[f"db{layer}"]
 
     def fit(
         self,
